@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src=./build/student.build.js></script>
+    <script>
+         window.onload = function() {
+            ex = new Student();
+            id= sessionStorage.getItem('id'); 
+            //debugger;
+            console.log(id);
+            info = ex.getStd(id);
+            
+            loadTable(id, info);
+
+            document.getElementById('btnnew').addEventListener('click', function() {
+                var inputs = document.getElementsByClassName('c1');
+                for (i in inputs) {
+                    inputs[i].value = '';
+                }
+            }, true);
+
+            document.getElementById('btnsave').addEventListener('click', function() {
+                var student = {
+                    StudentAddr: document.getElementById('txtaddr').value,
+                    Certification:  document.getElementById('txtcerti').value,
+                    SpecialAchievements: document.getElementById('txtSA').value
+                };
+                ex.addCerti(id,student.Certification);
+                ex.addSA(id,student.SpecialAchievements);
+                ex.addAddr(id,student.StudentAddr);
+                loadTable(id, ex.getStd(id));
+
+           }, true);
+         }
+
+         function editAddr(){
+            debugger;
+            var Eaddr = document.getElementById('Caddr'); 
+            var tdText = Eaddr.innerText;
+            console.log(tdText);
+            ex.EditAddr(id,tdText);
+        }
+        //edit email
+        function editCerti(){
+            debugger;
+            var Ecerti = document.getElementById('Ccerti'); 
+            var tdText = Ecerti.innerText;
+            console.log(tdText);
+            
+            ex.EditCerti(id,tdText);
+        }
+        function editSA(){
+            debugger;
+            var Esa = document.getElementById('Csa'); 
+            var tdText = Esa.innerText;
+            console.log(tdText);
+            
+            ex.EditSA(id,tdText);
+        }
+
+            function loadTable(id, info) {
+                n=info;
+                var tr="";
+                console.log(n);
+                    if(n.StudentAddr=='' && n.SpecialAchievements=='[object Object]' && n.Certification=='[object Object]'){
+                    tr += '<p>Student Id :' + id +  '</p><p>' + n.StudentName + '</p><p>' + n.Gender + '</p><p>' + n.StudentEmail + '</p><p>' + '--' + '</p><p>'+ '--' +'</p><p>'+ '--' + "</p></tr>";
+                    }else{
+                        tr += '<p><b>Student ID :     </b>' + id + '</p><p><b>Student Name :     </b>' + n.StudentName + '</p><p><b>Gender :     </b>' + n.Gender + '</p><p><b>Email :     </b>' + n.StudentEmail + '</p><p><b>Address : <p type = "text" contenteditable="true" onblur="editAddr()" id = "Caddr">    </b>' + n.StudentAddr + '</p></p><p> <b> Certification :  <p type = "text" contenteditable="true" onblur="editCerti()" id = "Ccerti">   </b>'+ n.Certification +'</p></p><p> <b> special Achievements :  <p type = "text" contenteditable="true" onblur="editSA()" id = "Csa">   </b>'+n.SpecialAchievements+"</p></p>";
+                    } 
+                
+                    
+                console.log(tr);
+                document.getElementById('tbody').innerHTML = tr;
+            }
+
+    </script>
+    <style>
+        .form-control{
+            margin-bottom: 5px;
+            margin-top: 5px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Educational Portal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto" style="float: right;">
+              <li class="nav-item active">
+                <a class="nav-link" href="./index.html">Logout <span class="sr-only">(current)</span></a>
+              </li>
+          </div>
+</nav>
+    <h2>Student</h2>
+    <br>
+    
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <form>
+            <h1>Student Infomation</h1>
+        
+            <label for="name"><b>Student Address</b></label>
+            <input type="text" class = "form-control c1" id = "txtaddr" placeholder="Enter Address" name="name" required>
+            <br>
+            <label for="email"><b>Certification</b></label>
+            <input type="text" placeholder="Enter Certification If Any" class="form-control c1" id="txtcerti"  name="email" required>
+            <br>
+            <label for="psw"><b>Special Achievements</b></label>
+            <input type="text" placeholder="Enter Special Achievements" class="form-control c1" id="txtSA" name="psw" required>
+    
+    
+            <input type="button" id="btnnew" value="new">
+            <input type="button" id="btnsave" value="save">
+          </form>
+        </div>
+      
+      </div>
+
+
+<div class="container-fluid">
+    <button id='myBtn' class='btn btn-primary' style='float:left;margin : 50px 0px 10px 350px;'>Add Details</button>
+</div>
+
+<div id="tbody"  class="col-md-5" style="margin : 0px 0px 10px 350px;border: 2px solid #1a1a1a;border-radius: 5px;padding: 15px;"> </div>
+
+    
+<script>
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+    }
+    
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
+    </script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+        
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+        
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+        
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+          modal.style.display = "block";
+        }
+        
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+        </script>
+</body>
+</html>

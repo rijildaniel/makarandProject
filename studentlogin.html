@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src=./build/student.build.js></script>
+    <script>
+        window.onload = function() {
+            var ex = new Student(); 
+            document.getElementById('btnlogin').addEventListener('click', function(){
+                var id = document.getElementById('numId').value;
+                var pass = document.getElementById('txtpass').value;
+                console.log(id);
+                    let res = ex.stdlogin(id,pass);
+                    debugger;
+                    
+                    if (res){
+                        window.location = "./student.html"
+                    }
+                    else{
+                        alert('invalid credentials');
+                    }
+            },true)
+        };
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Educational Portal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="./index.html">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./Admin.html">Admin</a>
+              </li>
+          </div>
+</nav>
+	<section class="my-5">
+	<div class="py-5">
+		<h2 class="text-center">Students Login</h2>
+	</div>
+
+	<div class="w-50 m-auto">
+		<form>
+			<div class="form-group">
+				<label>User ID</label>
+				<input type="number" id ="numId" name="user" autocomplete="off" class="form-control" placeholder="Enter your user Name">
+			</div>
+
+			<div class="form-group">
+				<label>Password</label>
+				<input type="password" id = "txtpass" name="Password" autocomplete="off" class="form-control" placeholder="Enter your Password">
+			</div>
+			<button type="button" id = "btnlogin" class="btn btn-success">Login</button>
+		</form>
+	</div>
+</section>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>       
+</html>

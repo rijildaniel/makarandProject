@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src=./build/Admin.build.js></script>
+    <script>
+         window.onload = function() {
+            ex = new Admin();
+            info = ex.getStd();
+            loadOptions();
+            loadTable(info);
+
+            document.getElementById('btnnew').addEventListener('click', function() {
+                var inputs = document.getElementsByClassName('c1');
+                for (i in inputs) {
+                    inputs[i].value = '';
+                }
+            }, true);
+
+            document.getElementById('btnsave').addEventListener('click', function() {
+                // JSON object 
+                var student = {
+                    StudentName: document.getElementById('txtname').value,
+                    StudentEmail: document.getElementById('txtemail').value,
+                    Gender: document.getElementById('lstgender').value,
+                    Password: document.getElementById('txtpass').value,
+                    StudentAddr: '',
+                    Certification: [],
+                    SpecialAchievements: []
+                };
+                students = ex.addStd(student);
+                loadTable(students);
+
+            }, true);
+            // For txtname Listener
+             document.getElementById('txtname').addEventListener('keyup', function() {
+                var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+                if(format.test(this.value)) {
+                    this.style.backgroundColor = "red";
+                }
+                else    {
+                    this.style.backgroundColor = null;
+                }
+            }, true);   
+
+            // search
+            document.getElementById('search').addEventListener('keyup',function(){
+                debugger;
+                item = document.getElementById('search').value;
+                if(item == ''){
+                    loadTable(info);
+                }else{
+                res = ex.search(item);
+                stu = ex.getStd();
+                console.log(stu);
+                var tr="";
+                j=0;
+                stu.forEach((n,i) => {
+                    if(i == res[j]){
+                         j++;
+                        tr += '<tr><td>' + i + '</td><td type = "text" contenteditable="true">' + n.StudentName + '</td><td contenteditable="true">' + n.Gender + '</td><td contenteditable="true">' + n.StudentEmail + '</td><td contenteditable="true">' + n.StudentAddr + '</td><td>'+ n.Certification +'</td><td>'+n.SpecialAchievements+'</td><td>'+"<button onclick = 'delStd("+i+")' id = 'i' class='btn btn-primary'>Delete</button></td></tr>";
+                    
+                }
+                });
+                document.getElementById('tbody').innerHTML = tr;
+            }
+            }, true);
+        }
+
+        function editName(i){
+            //debugger;
+            var Ename = document.getElementById('Cname'); 
+            var tdText = Ename.innerText;
+            console.log(tdText);
+            
+            ex.EditName(i,tdText);
+        }
+        //edit email
+        function editEmail(i){
+            //debugger;
+            var Eemail = document.getElementById('Cemail');
+            var tdText = Eemail.innerText;
+            console.log(tdText);
+            
+            ex.Editmail(i,tdText);
+        }
+            function loadOptions() {
+                var gender = ["Male", "Female"];
+                var opts = '<option value="0">Select Gender</option>';
+                console.log('sss');
+                for (var i = 0; i < gender.length; i++) {
+                    opts += '<option value="' + gender[i] + '">' + gender[i] + '</option>'
+                }
+                document.getElementById('lstgender').innerHTML = opts;
+                // dynamically setting the HTML DOM for <select></select>
+                
+            }
+
+            function loadTable(students) {
+                var tr="";
+                students.forEach((n,i) => {
+                    if(n.StudentAddr=='' && n.SpecialAchievements=='[object Object]' && n.Certification=='[object Object]'){
+                    tr += '<tr><td>' + i + '</td><td>' + n.StudentName + '</td><td>' + n.Gender + '</td><td>' + n.StudentEmail + '</td><td>' + '--' + '</td><td>'+ '--' +'</td><td>'+ '--' +'</td><td>'+"<button onclick = 'delStd("+i+")' class='btn btn-primary'>Delete</button></td></tr>";
+                    }else{
+                        tr += '<tr><td>' + i + '</td><td type = "text" contenteditable="true" onblur="editName('+i+')" id = "Cname">' + n.StudentName + '</td><td>' + n.Gender + '</td><td type = "text" contenteditable="true" onblur="editEmail('+i+')" id = "Cemail">' + n.StudentEmail + '</td><td>' + n.StudentAddr + '</td><td>'+ n.Certification +'</td><td>'+n.SpecialAchievements+'</td><td>'+"<button onclick = 'delStd("+i+")' id = 'i' class='btn btn-primary'>Delete</button></td></tr>";
+                    }
+                });
+                console.log(tr);
+                document.getElementById('tbody').innerHTML = tr;
+            }
+
+        
+    function delStd(id){ 
+        // debugger; 
+         stu = ex.deleteStd(id.toString());
+        loadTable(stu);
+    }
+
+    </script>
+
+    <!-- <style>
+        .form-control{
+            margin-bottom: 5px;
+            margin-top: 5px;
+            margin-left: 5px;
+        }
+    </style> -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Educational Portal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto" style="float: right;">
+              <li class="nav-item active">
+                <a class="nav-link" href="./index.html">Logout <span class="sr-only">(current)</span></a>
+              </li>
+          </div>
+</nav>
+    <h2>Admin</h2>
+    <br>
+    <button id="myBtn" class="btn btn-primary">Add Student</button>
+    
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <form>
+            <h1>Student Infomation</h1>
+        
+            <label for="name"><b>Student Name</b></label>
+            <input type="text" class = "form-control c1" id = "txtname" placeholder="Enter Name" name="name" required>
+            <br>
+            <label for="gender"><b>Gender</b></label>
+            <select id="lstgender">
+            </select>
+            <br>
+            <label for="email"><b>Email</b></label>
+            <input type="text" placeholder="Enter Email" class="form-control c1" id="txtemail"  name="email" required>
+            <br>
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" class="form-control c1" id="txtpass" name="psw" required>
+    
+    
+            <input type="button" id="btnnew" value="new">
+            <input type="button" id="btnsave" value="save">
+          </form>
+        </div>
+      
+      </div>
+
+<br>
+  
+    <table class="table">
+        
+        <thead>
+            <hr>
+            
+            <br>
+            <tr>
+                <th>Student Id</th>
+                <th>Student Name</th>
+                <th>Gender</th>
+                <th>Student Email</th>
+                <th>Student Address</th>
+                <th>Certification</th>
+                <th>Special Achievements</th>
+                <th><div class="search-container">
+                    <input type="text" id="search" placeholder="search">
+                  </div></th>
+            </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+    </table>
+    <script>
+        function openForm() {
+          document.getElementById("myForm").style.display = "block";
+        }
+        
+        function closeForm() {
+          document.getElementById("myForm").style.display = "none";
+        }
+        </script>
+        <script>
+            // Get the modal
+            var modal = document.getElementById("myModal");
+            
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+            
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+              modal.style.display = "block";
+            }
+            
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+              modal.style.display = "none";
+            }
+            
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+            }
+            </script>
+</body>
+</html>

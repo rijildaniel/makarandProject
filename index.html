@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  
+  <script>
+      function locator(){
+        window.location = "./studentlogin.html"
+      }
+  </script>
+  
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Educational Portal</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="./index.html">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" href="./Admin.html">Admin</a>
+      </li> -->
+
+    <form class="form-inline my-2 my-lg-0">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="locator()" id = "btnlogin">Login</button>
+    </form>
+  </div>
+</nav>
+
+<section class="my-5">
+	<div class="py-5">
+		<h2 class="text-center">About Us</h2>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-12">
+				<img src="data:image/png;base64,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" class="img-fluid aboutimg">
+			</div>
+			<div class="col-lg-6 col-md-6 col-12">
+				<h2 class="display-4">I am a CloudVenger!</h2>
+				<p class="py-3">At Blazeclan we have a batch name called CloudVengers and Being the part of of that batch i am desginated as a cloudVenger, As the name says we are born in cloud and has to transform the world with our skills of cloud us AWS,This portal is for updating students information.  
+				</p>
+				<a href="./studentlogin.html" class="btn btn-success">check more</a>
+			</div>
+		</div>
+    </div>
+</section>
+
+  
+
+
+ <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
