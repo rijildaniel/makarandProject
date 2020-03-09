@@ -25,11 +25,20 @@
                 }
             }, true);
 
-            document.getElementById('btnsave').addEventListener('click', function() {
-                // JSON object 
+            
+                document.getElementById('btnsave').addEventListener('click', function() {
+                // JSON object
+                let flag = 0; 
+                var email = document.getElementById('txtemail').value;
+                info.forEach((n,i)=>{
+                    if(n.StudentEmail==email){
+                        flag=1;
+                    }
+                })
+                if(!flag){
                 var student = {
                     StudentName: document.getElementById('txtname').value,
-                    StudentEmail: document.getElementById('txtemail').value,
+                    StudentEmail: email,
                     Gender: document.getElementById('lstgender').value,
                     Password: document.getElementById('txtpass').value,
                     StudentAddr: '',
@@ -38,6 +47,9 @@
                 };
                 students = ex.addStd(student);
                 loadTable(students);
+            }else{
+                alert("Email exist please enter unique email");
+            }
 
             }, true);
             // For txtname Listener
